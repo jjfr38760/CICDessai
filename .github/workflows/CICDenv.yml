@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
       #name: ${{ env.ENV }}
-      name: $(echo ${ENV})
+      name: echo "${{ env.ENV }}"
     steps:
       - uses: actions/checkout@v2
       - name: Run build
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: 
      # name: ${{ env.ENV }}
-     name: $(echo ${ENV})
+     name: echo "${{ env.ENV }}"
     steps:
       # Runs a set of commands using the runners shell
       - name: Run test
