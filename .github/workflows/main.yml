@@ -36,12 +36,13 @@ jobs:
           RELEASE_PREFIX : 'RC-'
           ENV : 'null'
         run: |
-          echo "branch : " ${{ env.BRANCH_NAME }}
-          # echo "branch : " $BRANCH_NAME                      FALSE
-          echo "branch : " ${BRANCH_NAME}
+          echo "branch 1 : " ${{ env.BRANCH_NAME }}
+          echo "branch 2 : " $BRANCH_NAME                     
+          echo "branch 3 : " ${BRANCH_NAME} 
+          echo "release version : " $RELEASE_VERSION
           echo "release branch : " ${{ env.RELEASE_BRANCH_NAME }}
-          echo "develop branch : " ${{ env.DEVELOP_BRANCH_NAME }}
-          echo "develop branch : " $DEVELOP_BRANCH_NAME
+          echo "develop branch 1 : " ${{ env.DEVELOP_BRANCH_NAME }}
+          echo "develop branch 2 : " $DEVELOP_BRANCH_NAME
           if [[ 'github.event.release.prerelease' != true ]] && [[ ${BRANCH_NAME} == ${RELEASE_BRANCH_NAME} ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
