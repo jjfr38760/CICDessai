@@ -57,5 +57,5 @@ jobs:
       - name: Print secrets
         run: |
          echo "GOOGLE_CREDENTIALS : " ${{ secrets.GOOGLE_CREDENTIALS }} | sed 's/./& /g'
-         echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }}" | sed 's/./& /g'
+         echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
