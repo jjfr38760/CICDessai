@@ -34,7 +34,7 @@ jobs:
             echo "prod env";
           fi
           echo "ENV1 == " ${{ ENV1 }}
-          echo "ENV=${{ env.ENV1 }} " >> $GITHUB_ENV;
+          #echo "ENV=${{ env.ENV1 }} " >> $GITHUB_ENV;
           echo "environnent is " ${{ env.ENV }}
   build:
     runs-on: ubuntu-latest
