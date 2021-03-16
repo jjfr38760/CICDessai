@@ -25,10 +25,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: nelonoel/branch-name@v1.0.1
+       # Use branch name for whatever purpose
+      - run: echo "This is result of github actions " ${BRANCH_NAME}
       - name: validate env
         env:
 #          BRANCH_NAME : $(git branch -r --contains ${GITHUB_SHA} | grep "")
-          BRANCH_NAME : $(echo ${GITHUB_REF##*/})
+#          BRANCH_NAME : $(echo ${GITHUB_REF##*/})
+          BRANCH : $(echo ${BRANCH_NAME})
           RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
           RELEASE_BRANCH_NAME : 'release'
           DEVELOP_BRANCH_NAME : 'main'
@@ -36,29 +40,29 @@ jobs:
           RELEASE_PREFIX : 'RC-'
           ENV : 'null'
         run: |
-          echo "branch 1 : " ${{ env.BRANCH_NAME }}
-          #echo "branch 2 : " $BRANCH_NAME                     
-          #echo "branch 3 : " ${BRANCH_NAME} 
+          echo "branch 1 : " ${{ env.BRANCH }}
+          #echo "branch 2 : " $BRANCH                     
+          #echo "branch 3 : " ${BRANCH} 
           #echo "release version 1 : " $RELEASE_VERSION
           echo "release version 2 : " ${{ env.RELEASE_VERSION }}
           echo "release branch : " ${{ env.RELEASE_BRANCH_NAME }}
           echo "develop branch 1 : " ${{ env.DEVELOP_BRANCH_NAME }}
           echo "develop branch 2 : " $DEVELOP_BRANCH_NAME
-          if [[ 'github.event.release.prerelease' != true ]] && [[ ${{ env.BRANCH_NAME }} == ${{ env.RELEASE_BRANCH_NAME }} ]]; then
+          if [[ 'github.event.release.prerelease' != true ]] && [[ ${{ env.BRANCH }} == ${{ env.RELEASE_BRANCH_NAME }} ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
             echo ::set-env name=CLUSTER_NAME=vault-prod;
-          elif [[ 'github.event.release.prerelease' == true ]] && [[ ${{ env.BRANCH_NAME }} == ${{ env.RELEASE_BRANCH_NAME }} ]] && [[ ${{ env.RELEASE_VERSION }} == ${{ env.RELEASE_PREFIX }}* ]]; then
+          elif [[ 'github.event.release.prerelease' == true ]] && [[ ${{ env.BRANCH }} == ${{ env.RELEASE_BRANCH_NAME }} ]] && [[ ${{ env.RELEASE_VERSION }} == ${{ env.RELEASE_PREFIX }}* ]]; then
             echo "valid for staging env"
             echo ::set-env name=ENV="staging";
             echo ::set-env name=CLUSTER_NAME=vault-staging;
-          elif [[ ${{ env.BRANCH_NAME }} == ${{ env.DEVELOP_BRANCH_NAME }} ]] || [[ ${{ env.BRANCH_NAME }} == ${{ env.FEATURE_BRANCH_NAME }}* ]]; then
+          elif [[ ${{ env.BRANCH }} == ${{ env.DEVELOP_BRANCH_NAME }} ]] || [[ ${{ env.BRANCH }} == ${{ env.FEATURE_BRANCH_NAME }}* ]]; then
             echo "valid for dev env";
             echo ::set-env name=ENV="develop";
           else
             echo "no valid env to set!";
-            exit 1;
-          fi    
+            #exit 1;
+          fi
   second-job:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
