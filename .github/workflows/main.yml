@@ -74,13 +74,13 @@ jobs:
           if [[ '${{ env.ENV }}' == 'staging' ]]; then
             echo "This is staging env";
           fi
-#      - if: ${{  env.ENV == 'develop' }} 
-#        name: an other develop env
-#        id: an_other_develop_env        
-#        run: |
-#          echo "Again this is develop env"
-#      - if: ${{  env.ENV == 'staging' }} 
-#        name: an other staging env
-#        id: an_other_staging_env        
-#        run: |
-#          echo "Again this is staging env";
+      - if: ${{  env.ENV == 'develop' }} 
+        name: an other develop env
+        id: an_other_develop_env        
+        run: |
+          echo "Again this is develop env"
+      - if: ${{  env.ENV == 'staging' }} 
+        name: an other staging env
+        id: an_other_staging_env        
+        run: |
+          echo "Again this is staging env";
