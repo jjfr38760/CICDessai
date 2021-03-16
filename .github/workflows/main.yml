@@ -48,7 +48,7 @@ jobs:
             echo "valid for staging env"
             echo ::set-env name=ENV="staging";
             echo ::set-env name=CLUSTER_NAME=vault-staging;
-          elif [[ ${BRANCH_NAME} == ${DEVELOP_BRANCH_NAME} ]] || [[ ${BRANCH_NAME} == ${FEATURE_BRANCH_NAME}* ]]; then
+          elif [[ '${BRANCH_NAME}' == '${DEVELOP_BRANCH_NAME}' ]] || [[ '${BRANCH_NAME}' == '${FEATURE_BRANCH_NAME}*' ]]; then
             echo "valid for dev env";
             echo ::set-env name=ENV="develop";
           else
@@ -64,19 +64,19 @@ jobs:
       - name: print env
         id: print_env
         run: 
-          if [[ ${{ env.ENV }} == 'develop' ]]; then
+          if [[ '${{ env.ENV }}' == 'develop' ]]; then
             echo "This is develop env";
           fi
-          if [[ ${{ env.ENV }} == 'staging' ]]; then
+          if [[ '${{ env.ENV }}' == 'staging' ]]; then
             echo "This is staging env";
           fi
-      - if: ${{  env.ENV == 'develop' }} 
-        name: an other develop env
-        id: an_other_develop_env        
-        run: |
-          echo "Again this is develop env"
-      - if: ${{  env.ENV == 'staging' }} 
-        name: an other staging env
-        id: an_other_staging_env        
-        run: |
-          echo "Again this is staging env";
+#      - if: ${{  env.ENV == 'develop' }} 
+#        name: an other develop env
+#        id: an_other_develop_env        
+#        run: |
+#          echo "Again this is develop env"
+#      - if: ${{  env.ENV == 'staging' }} 
+#        name: an other staging env
+#        id: an_other_staging_env        
+#        run: |
+#          echo "Again this is staging env";
