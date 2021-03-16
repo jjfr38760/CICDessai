@@ -61,7 +61,6 @@ jobs:
             #exit 1;
           fi
       - uses: actions/checkout@v1
-      - run: npm ci
       - uses: nelonoel/branch-name@v1.0.1
        # Use branch name for whatever purpose
       - run: echo "this is result of github actions " ${BRANCH_NAME}
