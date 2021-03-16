@@ -37,10 +37,10 @@ jobs:
           ENV : 'null'
         run: |
           echo "branch : " ${{ env.BRANCH_NAME }}
-          echo "branch : $BRANCH_NAME
+          echo "branch : " $BRANCH_NAME
           echo "release branch : " ${{ env.RELEASE_BRANCH_NAME }}
           echo "develop branch : " ${{ env.DEVELOP_BRANCH_NAME }}
-          echo "develop branch : " ${DEVELOP_BRANCH_NAME}
+          echo "develop branch : " $DEVELOP_BRANCH_NAME
           if [[ 'github.event.release.prerelease' != true ]] && [[ ${BRANCH_NAME} == ${RELEASE_BRANCH_NAME} ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
