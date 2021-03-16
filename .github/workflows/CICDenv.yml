@@ -27,6 +27,8 @@ jobs:
         run: |
           echo "event name " $GITHUB_EVENT_NAME
           echo "event ref " $GITHUB_REF
+          echo "head branch name " $GITHUB_HEAD_REF
+          echo "base branch name " $GITHUB_BASE_REF
           if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_REF == 'refs/heads/main' ]] ; then
             #echo "ENV=dev" >> $GITHUB_ENV
             echo "::set-output name=ENV::prod";
