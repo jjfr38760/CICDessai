@@ -48,7 +48,7 @@ jobs:
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
             echo ::set-env name=CLUSTER_NAME=vault-prod;
-          elif [[ 'github.event.release.prerelease' == true ]] && [[ ${{ env.BRANCH_NAME }} == ${{ env.RELEASE_BRANCH_NAME }} ]] && [[ ${{ env.RELEASE_VERSION }} == ${{ RELEASE_PREFIX }}* ]]; then
+          elif [[ 'github.event.release.prerelease' == true ]] && [[ ${{ env.BRANCH_NAME }} == ${{ env.RELEASE_BRANCH_NAME }} ]] && [[ ${{ env.RELEASE_VERSION }} == ${{ env.RELEASE_PREFIX }}* ]]; then
             echo "valid for staging env"
             echo ::set-env name=ENV="staging";
             echo ::set-env name=CLUSTER_NAME=vault-staging;
