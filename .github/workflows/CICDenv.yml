@@ -47,8 +47,8 @@ jobs:
     env:
       ENV: ${{ needs.determine_env.outputs.ENV }}
     runs-on: ubuntu-latest
-#    environment: 
-      #name: ${{ env.ENV }}
+    environment: 
+      name: ${{ env.ENV }}
 #      name: echo "${{ env.ENV }}"
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
