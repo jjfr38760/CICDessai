@@ -39,23 +39,13 @@ jobs:
     name: build
     needs: [determine_env]
     runs-on: ubuntu-latest
-    environment: 
+#    environment: 
       #name: ${{ env.ENV }}
-      name: echo "${{ env.ENV }}"
+#      name: echo "${{ env.ENV }}"
     steps:
+      - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
       - name: Run build
         run: echo "Build"
-  test:
-    name: test
-    needs: [build]
-    runs-on: ubuntu-latest
-    environment: 
-     # name: ${{ env.ENV }}
-     name: echo "${{ env.ENV }}"
-    steps:
-      # Runs a set of commands using the runners shell
-      - name: Run test
-        run: |
-          echo "Test"
+
  
