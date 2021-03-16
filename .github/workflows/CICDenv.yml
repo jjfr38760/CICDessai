@@ -1,0 +1,59 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CICDenv
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches:
+     - main
+     - release
+  pull_request:
+    branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+#env:
+ #ENV : "null"
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  determine_env:
+    name: determine env
+    runs-on: ubuntu-latest    
+    outputs:
+       ENV: ${{ steps.set_env.outputs.ENV }}
+    steps: 
+      - id: set_env
+        run: |
+          echo "event name " $GITHUB_EVENT_NAME
+          echo "event ref " $GITHUB_REF
+          echo "head branch name " $GITHUB_HEAD_REF
+          echo "base branch name " $GITHUB_BASE_REF
+          if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_BASE_REF == 'main' ]] ; then
+            echo "::set-output name=ENV::dev";
+            echo "dev env"
+          elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
+            echo "::set-output name=ENV::staging";
+            echo "staging env"
+          elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
+            echo "::set-output name=ENV::prod";
+            echo "prod env"
+          fi
+  build:
+    name: build
+    needs: [determine_env]
+#    env:
+#      ENV: ${{ needs.determine_env.outputs.ENV }}
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.determine_env.outputs.ENV }}
+    steps:
+      - run: echo "environnent is " ${{ env.ENV }}
+      - uses: actions/checkout@v2
+      - name: Run build
+        run: echo "Build"
+      - name: Print secrets
+        run: |
+         echo "GOOGLE_CREDENTIALS : " ${{ secrets.GOOGLE_CREDENTIALS }} | sed 's/./& /g'
+         echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
+         echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
