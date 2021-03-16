@@ -37,17 +37,17 @@ jobs:
           if [[ 'github.event.release.prerelease' != true ]] && [[ "$BRANCH" == "$RELEASE_BRANCH_NAME" ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
-            echo ::set-env name=CLUSTER_NAME=vault-prod
+            echo ::set-env name=CLUSTER_NAME=vault-prod;
           elif [[ 'github.event.release.prerelease' == true ]] && [[ "$BRANCH" == "$RELEASE_BRANCH_NAME" ]] && [[ "$RELEASE_VERSION" == "$RELEASE_PREFIX"* ]]; then
             echo "valid for staging env";
             echo ::set-env name=ENV="staging";
-            echo ::set-env name=CLUSTER_NAME=vault-staging
+            echo ::set-env name=CLUSTER_NAME=vault-staging;
           elif [[ "$BRANCH" == "$DEVELOP_BRANCH_NAME" ]] || [[ "$BRANCH" == "$FEATURE_BRANCH_NAME"* ]]; then
             echo "valid for dev env";
             echo ::set-env name=ENV="develop";
           else
-            echo "no valid env to set!"
-            exit 1
+            echo "no valid env to set!";
+            exit 1;
           fi    
   second-job:
     # The type of runner that the job will run on
@@ -59,10 +59,10 @@ jobs:
         id: print_env
         run: 
           if [[ ${{ env.ENV }} == 'develop' ]]; then
-            echo "This is develop env" 
+            echo "This is develop env";
           fi
           if [[ ${{ env.ENV }} == 'staging' ]]; then
-            echo "This is staging env" 
+            echo "This is staging env";
           fi
       - if: ${{  env.ENV == 'develop' }} 
         name: an other develop env
@@ -73,7 +73,7 @@ jobs:
         name: an other staging env
         id: an_other_staging_env        
         run: |
-          echo "Again this is staging env"
+          echo "Again this is staging env";
 
       
       
