@@ -25,6 +25,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - uses: nelonoel/branch-name@v1.0.1
+       # Use branch name for whatever purpose
+      - run: echo "this is result of github actions " ${BRANCH_NAME}
       - name: validate env
         env:
 #          BRANCH_NAME : $(git branch -r --contains ${GITHUB_SHA} | grep "")
@@ -60,10 +63,6 @@ jobs:
             echo "no valid env to set!";
             #exit 1;
           fi
-#      - uses: actions/checkout@v1
-      - uses: nelonoel/branch-name@v1.0.1
-       # Use branch name for whatever purpose
-      - run: echo "this is result of github actions " ${BRANCH_NAME}
   second-job:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
