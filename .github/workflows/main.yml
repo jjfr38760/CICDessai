@@ -37,22 +37,22 @@ jobs:
           ENV : 'null'
         run: |
           echo "branch 1 : " ${{ env.BRANCH_NAME }}
-          echo "branch 2 : " $BRANCH_NAME                     
-          echo "branch 3 : " ${BRANCH_NAME} 
-          echo "release version 1 : " $RELEASE_VERSION
+          #echo "branch 2 : " $BRANCH_NAME                     
+          #echo "branch 3 : " ${BRANCH_NAME} 
+          #echo "release version 1 : " $RELEASE_VERSION
           echo "release version 2 : " ${{ env.RELEASE_VERSION }}
           echo "release branch : " ${{ env.RELEASE_BRANCH_NAME }}
           echo "develop branch 1 : " ${{ env.DEVELOP_BRANCH_NAME }}
           echo "develop branch 2 : " $DEVELOP_BRANCH_NAME
-          if [[ 'github.event.release.prerelease' != true ]] && [[ ${BRANCH_NAME} == ${RELEASE_BRANCH_NAME} ]]; then
+          if [[ 'github.event.release.prerelease' != true ]] && [[ ${{ env.BRANCH_NAME }} == ${{ env.RELEASE_BRANCH_NAME }} ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
             echo ::set-env name=CLUSTER_NAME=vault-prod;
-          elif [[ 'github.event.release.prerelease' == true ]] && [[ ${BRANCH_NAME} == ${RELEASE_BRANCH_NAME} ]] && [[ ${RELEASE_VERSION} == ${RELEASE_PREFIX}* ]]; then
+          elif [[ 'github.event.release.prerelease' == true ]] && [[ ${{ env.BRANCH_NAME }} == ${{ env.RELEASE_BRANCH_NAME }} ]] && [[ ${{ env.RELEASE_VERSION }} == ${{ RELEASE_PREFIX }}* ]]; then
             echo "valid for staging env"
             echo ::set-env name=ENV="staging";
             echo ::set-env name=CLUSTER_NAME=vault-staging;
-          elif [[ '${BRANCH_NAME}' == '${DEVELOP_BRANCH_NAME}' ]] || [[ '${BRANCH_NAME}' == '${FEATURE_BRANCH_NAME}*' ]]; then
+          elif [[ ${{ env.BRANCH_NAME }} == ${{ env.DEVELOP_BRANCH_NAME }} ]] || [[ ${{ env.BRANCH_NAME }} == ${{ env.FEATURE_BRANCH_NAME }}* ]]; then
             echo "valid for dev env";
             echo ::set-env name=ENV="develop";
           else
@@ -67,7 +67,7 @@ jobs:
     steps:
       - name: print env
         id: print_env
-        run: 
+        run: |
           if [[ '${{ env.ENV }}' == 'develop' ]]; then
             echo "This is develop env";
           fi
