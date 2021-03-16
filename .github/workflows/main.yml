@@ -27,23 +27,24 @@ jobs:
     steps:
       - name: validate env
         env:
-          BRANCH : $(git branch -r --contains ${GITHUB_SHA} | grep "")
+#          BRANCH_NAME : $(git branch -r --contains ${GITHUB_SHA} | grep "")
+          BRANCH_NAME : ${GITHUB_REF##*/}
           RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
           RELEASE_BRANCH_NAME : 'release'
           DEVELOP_BRANCH_NAME : 'main'
           FEATURE_BRANCH_NAME : 'feature'
           RELEASE_PREFIX : 'RC-'
         run: |
-          echo "branch : " ${{ env.BRANCH }}
-          if [[ 'github.event.release.prerelease' != true ]] && [[ "$BRANCH" == "$RELEASE_BRANCH_NAME" ]]; then
+          echo "branch : " ${{ env.BRANCH_NAME }}
+          if [[ 'github.event.release.prerelease' != true ]] && [[ "$BRANCH_NAME" == "$RELEASE_BRANCH_NAME" ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
             echo ::set-env name=CLUSTER_NAME=vault-prod;
-          elif [[ 'github.event.release.prerelease' == true ]] && [[ "$BRANCH" == "$RELEASE_BRANCH_NAME" ]] && [[ "$RELEASE_VERSION" == "$RELEASE_PREFIX"* ]]; then
+          elif [[ 'github.event.release.prerelease' == true ]] && [[ "$BRANCH_NAME" == "$RELEASE_BRANCH_NAME" ]] && [[ "$RELEASE_VERSION" == "$RELEASE_PREFIX"* ]]; then
             echo "valid for staging env";
             echo ::set-env name=ENV="staging";
             echo ::set-env name=CLUSTER_NAME=vault-staging;
-          elif [[ "$BRANCH" == "$DEVELOP_BRANCH_NAME" ]] || [[ "$BRANCH" == "$FEATURE_BRANCH_NAME"* ]]; then
+          elif [[ "$BRANCH_NAME" == "$DEVELOP_BRANCH_NAME" ]] || [[ "$BRANCH_NAME" == "$FEATURE_BRANCH_NAME"* ]]; then
             echo "valid for dev env";
             echo ::set-env name=ENV="develop";
           else
@@ -75,8 +76,3 @@ jobs:
         id: an_other_staging_env        
         run: |
           echo "Again this is staging env";
-
-      
-      
-      
-      
