@@ -34,17 +34,18 @@ jobs:
           DEVELOP_BRANCH_NAME : 'main'
           FEATURE_BRANCH_NAME : 'feature'
           RELEASE_PREFIX : 'RC-'
+          ENV : 'null'
         run: |
           echo "branch : " ${{ env.BRANCH_NAME }}
-          if [[ 'github.event.release.prerelease' != true ]] && [[ "$BRANCH_NAME" == "$RELEASE_BRANCH_NAME" ]]; then
+          if [[ 'github.event.release.prerelease' != true ]] && [[ $BRANCH_NAME == $RELEASE_BRANCH_NAME ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
             echo ::set-env name=CLUSTER_NAME=vault-prod;
-          elif [[ 'github.event.release.prerelease' == true ]] && [[ "$BRANCH_NAME" == "$RELEASE_BRANCH_NAME" ]] && [[ "$RELEASE_VERSION" == "$RELEASE_PREFIX"* ]]; then
-            echo "valid for staging env";
+          elif [[ 'github.event.release.prerelease' == true ]] && [[ $BRANCH_NAME == $RELEASE_BRANCH_NAME ]] && [[ $RELEASE_VERSION == $RELEASE_PREFIX* ]]; then
+            echo "valid for staging env"
             echo ::set-env name=ENV="staging";
             echo ::set-env name=CLUSTER_NAME=vault-staging;
-          elif [[ "$BRANCH_NAME" == "$DEVELOP_BRANCH_NAME" ]] || [[ "$BRANCH_NAME" == "$FEATURE_BRANCH_NAME"* ]]; then
+          elif [[ $BRANCH_NAME == $DEVELOP_BRANCH_NAME ]] || [[ $BRANCH_NAME == $FEATURE_BRANCH_NAME* ]]; then
             echo "valid for dev env";
             echo ::set-env name=ENV="develop";
           else
@@ -60,7 +61,7 @@ jobs:
       - name: print env
         id: print_env
         run: 
-          if [[ ${{ env.ENV }} == 'develop' ]]; then
+          if [[ ${{ env.ENV }} == 'main' ]]; then
             echo "This is develop env";
           fi
           if [[ ${{ env.ENV }} == 'staging' ]]; then
