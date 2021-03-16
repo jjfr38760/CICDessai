@@ -42,8 +42,8 @@ jobs:
   build:
     name: build
     needs: [determine_env]
-    env:
-      ENV: ${{ needs.determine_env.outputs.ENV }}
+#    env:
+#      ENV: ${{ needs.determine_env.outputs.ENV }}
     runs-on: ubuntu-latest
     environment: 
       name: ${{ needs.determine_env.outputs.ENV }}
