@@ -33,7 +33,7 @@ jobs:
             echo "ENV=prod" >> $GITHUB_ENV
             echo "prod env"
           fi        
-      - name: echo "environnent is " ${{ env.ENV }}
+      - run: echo "environnent is " ${{ env.ENV }}
   build:
     runs-on: ubuntu-latest
     steps:
