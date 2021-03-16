@@ -28,8 +28,9 @@ jobs:
       - name: validate env
         env:
 #          BRANCH_NAME : $(git branch -r --contains ${GITHUB_SHA} | grep "")
-          BRANCH_NAME : $(echo ${GITHUB_REF##*/})
-          RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
+#          BRANCH_NAME : $(echo ${GITHUB_REF##*/})
+          BRANCH_NAME : 'null'
+        RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
           RELEASE_BRANCH_NAME : 'release'
           DEVELOP_BRANCH_NAME : 'main'
           FEATURE_BRANCH_NAME : 'feature'
@@ -57,8 +58,13 @@ jobs:
             echo ::set-env name=ENV="develop";
           else
             echo "no valid env to set!";
-            exit 1;
-          fi    
+            #exit 1;
+          fi
+      - uses: actions/checkout@v1
+      - run: npm ci
+      - uses: nelonoel/branch-name@v1.0.1
+       # Use branch name for whatever purpose
+      - run: echo "this is result of github actions " ${BRANCH_NAME}
   second-job:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
