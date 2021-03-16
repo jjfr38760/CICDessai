@@ -24,16 +24,16 @@ jobs:
           echo "event name " $GITHUB_EVENT_NAME
           echo "event ref " $GITHUB_REF
           if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_REF == 'refs/heads/main' ]] ; then
-            echo ::set-env name=ENV::"dev";
-            echo "ENV=dev" >> $GITHUB_ENV;
+            echo "ENV1=dev" >> $GITHUB_ENV;
             echo "dev env";
           elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
-            echo "ENV=staging" >> $GITHUB_ENV;
+            echo "ENV1=staging" >> $GITHUB_ENV;
             echo "staging env";
           elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
-            echo "ENV=prod" >> $GITHUB_ENV;
+            echo "ENV1=prod" >> $GITHUB_ENV;
             echo "prod env";
           fi
+          echo "ENV=${{ env.ENV1 }} " >> $GITHUB_ENV;
           echo "environnent is " ${{ env.ENV }}
   build:
     runs-on: ubuntu-latest
