@@ -54,5 +54,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run build
         run: echo "Build"
-
- 
+      - name: Print secrets
+        run: |
+         echo "GOOGLE_CREDENTIALS=${{ secrets.GOOGLE_CREDENTIALS }}"
+         echo "PROJECT_ID=${{ secrets.PROJECT_ID }}"
+         echo "PROJECT_NUMBER=${{ secrets.PROJECT_NUMBER }}"
