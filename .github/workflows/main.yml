@@ -34,7 +34,7 @@ jobs:
           FEATURE_BRANCH_NAME : 'feature'
           RELEASE_PREFIX : 'RC-'
         run: |
-          echo "branch : " ${{ BRANCH }}
+          echo "branch : " ${{ env.BRANCH }}
           if [[ 'github.event.release.prerelease' != true ]] && [[ "$BRANCH" == "$RELEASE_BRANCH_NAME" ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
