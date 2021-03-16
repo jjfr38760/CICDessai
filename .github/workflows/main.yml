@@ -28,12 +28,13 @@ jobs:
       - name: validate env
         env:
           BRANCH : $(git branch -r --contains ${GITHUB_SHA} | grep "")
-          RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")A
+          RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
           RELEASE_BRANCH_NAME : 'release'
           DEVELOP_BRANCH_NAME : 'main'
           FEATURE_BRANCH_NAME : 'feature'
           RELEASE_PREFIX : 'RC-'
         run: |
+          echo "branch : " $BRANCH
           if [[ 'github.event.release.prerelease' != true ]] && [[ "$BRANCH" == "$RELEASE_BRANCH_NAME" ]]; then
             echo "valid for prod env";
             echo ::set-env name=ENV="production";
