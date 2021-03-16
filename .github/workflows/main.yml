@@ -39,7 +39,8 @@ jobs:
           echo "branch 1 : " ${{ env.BRANCH_NAME }}
           echo "branch 2 : " $BRANCH_NAME                     
           echo "branch 3 : " ${BRANCH_NAME} 
-          echo "release version : " $RELEASE_VERSION
+          echo "release version 1 : " $RELEASE_VERSION
+          echo "release version 2 : " ${{ env.RELEASE_VERSION }}
           echo "release branch : " ${{ env.RELEASE_BRANCH_NAME }}
           echo "develop branch 1 : " ${{ env.DEVELOP_BRANCH_NAME }}
           echo "develop branch 2 : " $DEVELOP_BRANCH_NAME
