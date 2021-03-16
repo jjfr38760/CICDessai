@@ -27,25 +27,23 @@ jobs:
         run: |
           echo "event name " $GITHUB_EVENT_NAME
           echo "event ref " $GITHUB_REF
-          if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_REF == 'refs/heads/main' ]] ; then
-            #echo "ENV=dev" >> $GITHUB_ENV
-            echo "::set-output name=ENV::prod";
+          echo "head branch name " $GITHUB_HEAD_REF
+          echo "base branch name " $GITHUB_BASE_REF
+          if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_BASE_REF == 'main' ]] ; then
+            echo "::set-output name=ENV::dev";
             echo "dev env"
           elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
-            #echo "ENV=staging" >> $GITHUB_ENV
             echo "::set-output name=ENV::staging";
             echo "staging env"
           elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
-            #echo "ENV=prod" >> $GITHUB_ENV
             echo "::set-output name=ENV::prod";
             echo "prod env"
-          fi        
-     # - run: echo "environnent is " ${{ env.ENV }}
+          fi
   build:
     name: build
     needs: [determine_env]
-    env:
-      ENV: ${{ needs.determine_env.outputs.ENV }}
+#    env:
+#      ENV: ${{ needs.determine_env.outputs.ENV }}
     runs-on: ubuntu-latest
     environment: 
       name: ${{ needs.determine_env.outputs.ENV }}
