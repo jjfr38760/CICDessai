@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: nelonoel/branch-name@v1.0.1
        # Use branch name for whatever purpose
-      - run: echo "this is result of github actions " ${BRANCH_NAME}
+      - run: echo "This is result of github actions " ${BRANCH_NAME}
       - name: validate env
         env:
 #          BRANCH_NAME : $(git branch -r --contains ${GITHUB_SHA} | grep "")
