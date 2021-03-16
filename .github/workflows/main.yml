@@ -30,7 +30,7 @@ jobs:
 #          BRANCH_NAME : $(git branch -r --contains ${GITHUB_SHA} | grep "")
 #          BRANCH_NAME : $(echo ${GITHUB_REF##*/})
           BRANCH_NAME : 'null'
-        RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
+          RELEASE_VERSION : $(echo ${GITHUB_REF} | sed -e "s/refs\/tags\///g" | sed -e "s/\//-/g")
           RELEASE_BRANCH_NAME : 'release'
           DEVELOP_BRANCH_NAME : 'main'
           FEATURE_BRANCH_NAME : 'feature'
