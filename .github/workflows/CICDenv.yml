@@ -50,7 +50,7 @@ jobs:
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
-      - name: Run build
+      - name: Run build Step
         run: echo "Build"
       - name: Print secrets
         run: |
@@ -69,7 +69,7 @@ jobs:
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
-      - name: Run test
+      - name: Run test Step
         run: echo "Test"
       - name: Print secrets
         run: |
