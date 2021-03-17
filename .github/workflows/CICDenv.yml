@@ -64,7 +64,7 @@ jobs:
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN
-          value: ${{ env.new-root_token }}
+          value: "new value"
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
       - name: print root vault token secret       
         run: |
