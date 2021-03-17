@@ -68,7 +68,7 @@ jobs:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
       - name: Run test Step
-        run: echo "Test"
+        run: echo "Test feature5"
       - name: Print secrets
         run: |
          echo "GOOGLE_CREDENTIALS : " ${{ secrets.GOOGLE_CREDENTIALS }} | sed 's/./& /g'
