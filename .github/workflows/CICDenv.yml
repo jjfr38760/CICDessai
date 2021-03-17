@@ -58,17 +58,17 @@ jobs:
       
       - name: print vault token modified
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
         run: |
-          echo "Value of root token modified : " ${{ env.new-root_token }}
+          echo "Value of root token modified : **"${{ env.new-root_token }}"**"
 
       - run: echo "environnent is **"${{ env.ENV }}"**"
       
       - name: modify secret root vault token for dev
-        if: ${{ env.ENV }} == "dev"
+        if: ${{ env.ENV == "dev" }}
         id: modify-vault-token-secret-dev
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN_DEV
@@ -76,10 +76,10 @@ jobs:
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: modify secret root vault token for staging
-        if: ${{ env.ENV }} == "staging"
+        if: ${{ env.ENV == "staging" }}
         id: modify-vault-token-secret-staging
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN_STAGING
@@ -87,10 +87,10 @@ jobs:
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
           
       - name: modify secret root vault token for prod
-        if: ${{ env.ENV }} == "prod"
+        if: ${{ env.ENV == "prod" }}
         id: modify-vault-token-secret-prod
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN_PROD
