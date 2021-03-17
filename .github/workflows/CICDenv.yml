@@ -53,7 +53,7 @@ jobs:
       ENV: ${{ secrets.CURRENT_ENV }}
     runs-on: ubuntu-latest
     environment: 
-      name: staging
+      name: ${{ env.ENV }}
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
