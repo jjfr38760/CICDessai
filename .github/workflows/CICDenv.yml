@@ -69,7 +69,7 @@ jobs:
      ENV: ${{ needs.build.outputs.ENV_OUT }}
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ needs.build.outputs.ENV_OUT }}
+      name: staging
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
