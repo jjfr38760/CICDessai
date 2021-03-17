@@ -56,6 +56,19 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
+      - name: modify secret root vault token
+        if: ${{ env.ENV }} == dev
+        id: modify-vault-token-secret  
+        env:
+          new-root_token:"VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED"
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: VAULT_ROOT_TOKEN
+          value: ${{ env.new-root_token }}
+          pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
+      - name: print root vault token secret       
+        run: |
+          echo "VAULT_ROOT_TOKEN : " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
   test:
     name: test
     needs: [determine_env,build]
