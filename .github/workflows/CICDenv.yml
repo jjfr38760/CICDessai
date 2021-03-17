@@ -60,7 +60,7 @@ jobs:
         if: ${{ env.ENV }} == dev
         id: modify-vault-token-secret  
         env:
-          new-root_token:"VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED"
+          new-root_token: echo "VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED"
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN
