@@ -56,19 +56,45 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
-      - name: modify secret root vault token
+         
+      - name: modify secret root vault token for dev
         if: ${{ env.ENV }} == dev
-        id: modify-vault-token-secret  
+        id: modify-vault-token-secret-dev
         env:
           new-root_token: echo "VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED"
         uses: gliech/create-github-secret-action@v1
         with:
-          name: VAULT_ROOT_TOKEN
+          name: VAULT_ROOT_TOKEN_DEV
           value: ${{ env.new-root_token }}
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
-      - name: print root vault token secret       
+
+      - name: modify secret root vault token for staging
+        if: ${{ env.ENV }} == staging
+        id: modify-vault-token-secret-staging
+        env:
+          new-root_token: echo "VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED"
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: VAULT_ROOT_TOKEN_STAGING
+          value: ${{ env.new-root_token }}
+          pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          
+      - name: modify secret root vault token for prod
+        if: ${{ env.ENV }} == dev
+        id: modify-vault-token-secret-prod
+        env:
+          new-root_token: echo "VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED"
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: VAULT_ROOT_TOKEN_PROD
+          value: ${{ env.new-root_token }}
+          pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}        
+      - name: print root vault token secret for each env     
         run: |
-          echo "VAULT_ROOT_TOKEN : " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
+          echo "VAULT_ROOT_TOKEN_DEV : " ${{ secrets.VAULT_ROOT_TOKEN_DEV }} | sed 's/./& /g'
+          echo "VAULT_ROOT_TOKEN_STAGING : " ${{ secrets.VAULT_ROOT_TOKEN_STAGING }} | sed 's/./& /g'
+          echo "VAULT_ROOT_TOKEN_PROD : " ${{ secrets.VAULT_ROOT_TOKEN_PROD }} | sed 's/./& /g'
+
   test:
     name: test
     needs: [determine_env,build]
