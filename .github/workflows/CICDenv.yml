@@ -62,3 +62,22 @@ jobs:
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
       - id: set_env
         run: echo "::set-output name=ENV_OUT::${{ env.ENV }}";
+  test:
+    name: test
+    needs: [build]
+    env:
+     ENV: ${{ needs.build.outputs.ENV_OUT }}
+    runs-on: ubuntu-latest
+    environment: 
+      name: ${{ needs.build.outputs.ENV_OUT }}
+    steps:
+      - run: echo "environnent is " ${{ env.ENV }}
+      - uses: actions/checkout@v2
+      - name: Run test Step
+        run: echo "Test"
+      - name: Print secrets
+        run: |
+         echo "GOOGLE_CREDENTIALS : " ${{ secrets.GOOGLE_CREDENTIALS }} | sed 's/./& /g'
+         echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
+         echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
+         echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'         
