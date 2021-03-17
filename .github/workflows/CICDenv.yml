@@ -45,6 +45,8 @@ jobs:
     env:
       ENV: ${{ needs.determine_env.outputs.ENV }}
     runs-on: ubuntu-latest
+    outputs:
+      ENV_OUT: ${{ steps.set_env.outputs.ENV }} 
     environment: 
       name: ${{ needs.determine_env.outputs.ENV }}
     steps:
@@ -58,3 +60,5 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
+      - id: set_env
+        run: echo "::set-output name=ENV_OUT::${{ env.ENV }}";
