@@ -45,8 +45,7 @@ jobs:
     runs-on: ubuntu-latest 
     environment: 
       name: ${{ needs.determine_env.outputs.ENV }}
-    steps:
-      - run: echo "environnent is " ${{ env.ENV }}
+    steps:      
       - uses: actions/checkout@v2
       - name: Run build Step
         run: echo "Build"
@@ -62,7 +61,9 @@ jobs:
           new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED
         run: |
           echo "Value of root token modified : " ${{ env.new-root_token }}
-         
+
+      - run: echo "environnent is **"${{ env.ENV }}"**"
+      
       - name: modify secret root vault token for dev
         if: ${{ env.ENV }} == "dev"
         id: modify-vault-token-secret-dev
