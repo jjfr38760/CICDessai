@@ -13,8 +13,6 @@ on:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-#env:
- #ENV : "null"
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   determine_env:
@@ -44,9 +42,7 @@ jobs:
     needs: [determine_env]
     env:
       ENV: ${{ needs.determine_env.outputs.ENV }}
-    runs-on: ubuntu-latest
-    outputs:
-       ENV_OUT: ${{ steps.set_env.outputs.ENV }}    
+    runs-on: ubuntu-latest 
     environment: 
       name: ${{ needs.determine_env.outputs.ENV }}
     steps:
@@ -60,8 +56,6 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
-      - id: set_env
-        run: echo "::set-output name=ENV_OUT::${{ env.ENV }}";
   test:
     name: test
     needs: [determine_env,build]
