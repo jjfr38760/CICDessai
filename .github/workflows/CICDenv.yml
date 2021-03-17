@@ -42,9 +42,9 @@ jobs:
   build:
     name: build
     needs: [determine_env]
-    env:
-     ENV: ${{ needs.determine_env.outputs.ENV }}
     runs-on: ubuntu-latest
+    outputs:
+       ENV: ${{ steps.set_env.outputs.ENV }}    
     environment: 
       name: ${{ needs.determine_env.outputs.ENV }}
     steps:
@@ -58,14 +58,16 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
+      - id: set_env
+        run: echo "::set-output name=ENV::${{ env.ENV }}";
   test:
     name: test
     needs: [build]
     env:
-     ENV: ${{ needs.determine_env.outputs.ENV }}
+     ENV: ${{ needs.build.outputs.ENV }}
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ needs.determine_env.outputs.ENV }}
+      name: ${{ needs.build.outputs.ENV }}
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
