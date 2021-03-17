@@ -19,36 +19,41 @@ on:
 jobs:
   determine_env:
     name: determine env
-    runs-on: ubuntu-latest    
-    outputs:
-       ENV: ${{ steps.set_env.outputs.ENV }}
+    runs-on: ubuntu-latest
+    env:
+     current_env: "null"
     steps: 
-      - id: set_env
+      - name: set env
         run: |
           echo "event name " $GITHUB_EVENT_NAME
           echo "event ref " $GITHUB_REF
           echo "head branch name " $GITHUB_HEAD_REF
           echo "base branch name " $GITHUB_BASE_REF
           if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_BASE_REF == 'main' ]] ; then
-            echo "::set-output name=ENV::dev";
+            current_env="dev"
             echo "dev env"
           elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
-            echo "::set-output name=ENV::staging";
+            current_env="staging"
             echo "staging env"
           elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
-            echo "::set-output name=ENV::prod";
+            current_env="prod"
             echo "prod env"
           fi
+      - name: store env as secret
+        id: store-env-as-secret
+        uses: gliech/create-github-secret-action@v1
+        with:
+          name: CURRENT_ENV
+          value: $current_env
+          pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}          
   build:
     name: build
     needs: [determine_env]
     env:
-      ENV: ${{ needs.determine_env.outputs.ENV }}
+      ENV: ${{ secrets.CURRENT_ENV }}
     runs-on: ubuntu-latest
-    outputs:
-      ENV_OUT: ${{ steps.set_env.outputs.ENV }} 
     environment: 
-      name: ${{ needs.determine_env.outputs.ENV }}
+      name: ${{ secrets.CURRENT_ENV }}
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
@@ -60,24 +65,3 @@ jobs:
          echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
          echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
          echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'
-      - id: set_env
-        run: echo "::set-output name=ENV_OUT::${{ env.ENV }}";
-  test:
-    name: test
-    needs: [build]
-    env:
-     ENV: ${{ needs.build.outputs.ENV_OUT }}
-    runs-on: ubuntu-latest
-    environment: 
-      name: staging
-    steps:
-      - run: echo "environnent is " ${{ env.ENV }}
-      - uses: actions/checkout@v2
-      - name: Run test Step
-        run: echo "Test"
-      - name: Print secrets
-        run: |
-         echo "GOOGLE_CREDENTIALS : " ${{ secrets.GOOGLE_CREDENTIALS }} | sed 's/./& /g'
-         echo "PROJECT_ID :  " ${{ secrets.PROJECT_ID }} | sed 's/./& /g'
-         echo "PROJECT_NUMBER :  " ${{ secrets.PROJECT_NUMBER }} | sed 's/./& /g'
-         echo "VAULT_ROOT_TOKEN :  " ${{ secrets.VAULT_ROOT_TOKEN }} | sed 's/./& /g'         
