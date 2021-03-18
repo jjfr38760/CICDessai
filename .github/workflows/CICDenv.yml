@@ -58,17 +58,17 @@ jobs:
       
       - name: print vault token modified
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2
         run: |
           echo "Value of root token modified : **"${{ env.new-root_token }}"**"
 
       - run: echo "environnent is **"${{ env.ENV }}"**"
-      
+                     
       - name: modify secret root vault token for dev
         if: ${{ env.ENV == 'dev' }}
         id: modify-vault-token-secret-dev
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN_DEV
@@ -76,10 +76,10 @@ jobs:
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: modify secret root vault token for staging
-        if: ${{ env.ENV == 'staging' }}
+        if: ${{ env.ENV == 'staging' }} && ${{ env.new-root_token == VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2 }}
         id: modify-vault-token-secret-staging
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN_STAGING
@@ -90,18 +90,23 @@ jobs:
         if: ${{ env.ENV == 'prod' }}
         id: modify-vault-token-secret-prod
         env:
-          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_1
+          new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2
         uses: gliech/create-github-secret-action@v1
         with:
           name: VAULT_ROOT_TOKEN_PROD
           value: ${{ env.new-root_token }}
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}        
       - name: print root vault token secret for each env     
-        run: |
+        run: |        
+          if [[ ${{ needs.determine_env.outputs.ENV }} == 'staging' ]]; then
+            if [[ ${{ env.new-root_token }} == VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2 ]]; then              
+              echo "VAULT_ROOT_TOKEN_STAGING : " ${{ secrets.VAULT_ROOT_TOKEN_STAGING }} | sed 's/./& /g'
+            else
+             echo "not init for staging"
+           fi
+          fi
           echo "VAULT_ROOT_TOKEN_DEV : " ${{ secrets.VAULT_ROOT_TOKEN_DEV }} | sed 's/./& /g'
-          echo "VAULT_ROOT_TOKEN_STAGING : " ${{ secrets.VAULT_ROOT_TOKEN_STAGING }} | sed 's/./& /g'
           echo "VAULT_ROOT_TOKEN_PROD : " ${{ secrets.VAULT_ROOT_TOKEN_PROD }} | sed 's/./& /g'
-
   test:
     name: test
     needs: [determine_env,build]
