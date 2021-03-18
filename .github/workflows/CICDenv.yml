@@ -76,7 +76,7 @@ jobs:
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: modify secret root vault token for staging
-        if: ${{ env.ENV == 'staging' }} && ${{ env.new-root_token == VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2 }}
+        if: ${{ env.ENV == 'staging' }} && ${{ env.new-root_token == 'VAULT_ROOT_TOKEN_STAGING_MODIFIED_2' }}
         id: modify-vault-token-secret-staging
         env:
           new-root_token: VAULT_ROOT_TOKEN_"${{ env.ENV }}"_MODIFIED_2
