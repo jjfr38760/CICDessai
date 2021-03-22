@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest    
     outputs:
        ENV: ${{ steps.set_env.outputs.ENV }}
+       VAULT_ROOT_TOKEN_SECRET: ${{ steps.set_env.outputs.VAULT_ROOT_TOKEN_SECRET }}
     steps: 
       - id: set_env
         run: |
@@ -29,12 +30,15 @@ jobs:
           echo "base branch name " $GITHUB_BASE_REF
           if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_BASE_REF == 'main' ]] ; then
             echo "::set-output name=ENV::dev";
+            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::DEV_VAULT_ROOT_TOKEN";
             echo "dev env"
           elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
             echo "::set-output name=ENV::staging";
+            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::STAGING_VAULT_ROOT_TOKEN";
             echo "staging env"
           elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
             echo "::set-output name=ENV::prod";
+            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::PROD_VAULT_ROOT_TOKEN";
             echo "prod env"
           fi
   build:
@@ -96,7 +100,7 @@ jobs:
           value: ${{ env.new-root_token }}
           pa_token: ${{ secrets.REPO_ACCESS_TOKEN }}   
           
-      - name: print root vault token secret for each env     
+      - name: print root vault token secret from each env     
         run: |        
           if [[ ${{ needs.determine_env.outputs.ENV }} == 'staging' ]]; then
             if [[ ${{ env.test }} == 'staging' ]]; then              
@@ -106,7 +110,12 @@ jobs:
            fi
           fi
           echo "VAULT_ROOT_TOKEN_DEV : " ${{ secrets.VAULT_ROOT_TOKEN_DEV }} | sed 's/./& /g'
-          echo "VAULT_ROOT_TOKEN_PROD : " ${{ secrets.VAULT_ROOT_TOKEN_PROD }} | sed 's/./& /g'
+          echo "VAULT_ROOT_TOKEN_PROD : " ${{ secrets.VAULT_ROOT_TOKEN_PROD }} | sed 's/./& /g'       
+          
+      - name: print root vault token secret from repo secrets
+          echo "VAULT_ROOT_TOKEN_SECRET_KEY=${{needs.determine_env.outputs.VAULT_ROOT_TOKEN_SECRET}}" >> $GITHUB_ENV;
+          echo "token from repo secret :" ${{ secrets[env.VAULT_ROOT_TOKEN_SECRET_KEY] }} | sed 's/./& /g'         
+          
   test:
     name: test
     needs: [determine_env,build]
