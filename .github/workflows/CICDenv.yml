@@ -112,12 +112,14 @@ jobs:
           echo "VAULT_ROOT_TOKEN_DEV : " ${{ secrets.VAULT_ROOT_TOKEN_DEV }} | sed 's/./& /g'
           echo "VAULT_ROOT_TOKEN_PROD : " ${{ secrets.VAULT_ROOT_TOKEN_PROD }} | sed 's/./& /g'       
           
-      - name: print root vault token secret from repo secrets
+      - name: set root vault token secret from repo secrets
         run: |
           echo "VAULT_ROOT_TOKEN_SECRET_KEY=${{needs.determine_env.outputs.VAULT_ROOT_TOKEN_SECRET}}" >> $GITHUB_ENV;
+      - name : print root vault token secret from repo secrets
+        run: |
           echo "1) VAULT_ROOT_TOKEN_SECRET_KEY :" ${{needs.determine_env.outputs.VAULT_ROOT_TOKEN_SECRET}}
           echo "2) VAULT_ROOT_TOKEN_SECRET_KEY :" ${{ env.VAULT_ROOT_TOKEN_SECRET_KEY }}
-          echo "1) token from repo secret :" ${{ secrets['env.VAULT_ROOT_TOKEN_SECRET_KEY'] }} | sed 's/./& /g'         
+          echo "1) token from repo secret :" ${{ secrets[env.VAULT_ROOT_TOKEN_SECRET_KEY] }} | sed 's/./& /g'         
           echo "2) token from repo secret :" ${{ secrets.DEV_VAULT_ROOT_TOKEN }} | sed 's/./& /g'        
 
 
