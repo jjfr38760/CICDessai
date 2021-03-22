@@ -117,7 +117,7 @@ jobs:
           echo "VAULT_ROOT_TOKEN_SECRET_KEY=${{needs.determine_env.outputs.VAULT_ROOT_TOKEN_SECRET}}" >> $GITHUB_ENV;
           echo "1) VAULT_ROOT_TOKEN_SECRET_KEY :" ${{needs.determine_env.outputs.VAULT_ROOT_TOKEN_SECRET}}
           echo "2) VAULT_ROOT_TOKEN_SECRET_KEY :" ${{ env.VAULT_ROOT_TOKEN_SECRET_KEY }}
-          echo "1) token from repo secret :" ${{ secrets[${{ env.VAULT_ROOT_TOKEN_SECRET_KEY }}] }} | sed 's/./& /g'         
+          echo "1) token from repo secret :" ${{ secrets[VAULT_ROOT_TOKEN_SECRET_KEY] }} | sed 's/./& /g'         
           echo "2) token from repo secret :" ${{ secrets.DEV_VAULT_ROOT_TOKEN }} | sed 's/./& /g'         
 
   test:
