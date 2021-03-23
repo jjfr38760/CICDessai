@@ -51,7 +51,7 @@ jobs:
 #          fi
       - id: set_env_from_parameter
         run: |
-          echo "::set-output name=ENV::${{ github.event.inputs.envToSet }} "
+          echo "::set-output name=ENV::${{ github.event.inputs.envToSet }}"
           echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::DEV_VAULT_ROOT_TOKEN"
           
   build:
