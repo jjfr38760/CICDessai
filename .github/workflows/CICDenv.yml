@@ -17,7 +17,7 @@ on:
         envToSet:
           description: 'env to set'
           required: true
-          default: 'set a valid value of env name defined in github environments'
+          default: 'set_a_valid_value_of_env_name_defined_in_github_environments'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
