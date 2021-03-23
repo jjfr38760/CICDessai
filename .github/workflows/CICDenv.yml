@@ -58,7 +58,7 @@ jobs:
     name: build
     needs: [determine_env]
     env:
-      #ENV: ${{ needs.determine_env.outputs.ENV }}
+      # ENV: ${{ needs.determine_env.outputs.ENV }}
       ENV: ${{ github.event.inputs.envToSet }}
       test: staging
     runs-on: ubuntu-latest 
@@ -141,7 +141,7 @@ jobs:
     name: test
     needs: [determine_env,build]
     env:
-     #ENV: ${{ needs.determine_env.outputs.ENV }}
+     # ENV: ${{ needs.determine_env.outputs.ENV }}
      ENV: ${{ github.event.inputs.envToSet }}
     runs-on: ubuntu-latest
     environment: 
