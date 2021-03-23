@@ -25,31 +25,34 @@ jobs:
     name: determine env
     runs-on: ubuntu-latest    
     outputs:
-       ENV: ${{ steps.set_env.outputs.ENV }}
-       VAULT_ROOT_TOKEN_SECRET: ${{ steps.set_env.outputs.VAULT_ROOT_TOKEN_SECRET }}
+       # ENV: ${{ steps.set_env.outputs.ENV }}
+       # VAULT_ROOT_TOKEN_SECRET: ${{ steps.set_env.outputs.VAULT_ROOT_TOKEN_SECRET }}
+       ENV: ${{ steps.set_env_from_parameter.outputs.ENV }}
+       VAULT_ROOT_TOKEN_SECRET: ${{ steps.set_env_from_parameter.outputs.VAULT_ROOT_TOKEN_SECRET }}       
     steps: 
-      - id: set_env
-        run: |
-          echo "event name " $GITHUB_EVENT_NAME
-          echo "event ref " $GITHUB_REF
-          echo "head branch name " $GITHUB_HEAD_REF
-          echo "base branch name " $GITHUB_BASE_REF
-          if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_BASE_REF == 'main' ]] ; then
-            echo "::set-output name=ENV::dev";
-            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::DEV_VAULT_ROOT_TOKEN";
-            echo "dev env"
-          elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
-            echo "::set-output name=ENV::staging";
-            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::STAGING_VAULT_ROOT_TOKEN";
-            echo "staging env"
-          elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
-            echo "::set-output name=ENV::prod";
-            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::PROD_VAULT_ROOT_TOKEN";
-            echo "prod env"
-          fi
+#      - id: set_env
+#        run: |
+#          echo "event name " $GITHUB_EVENT_NAME
+#          echo "event ref " $GITHUB_REF
+#          echo "head branch name " $GITHUB_HEAD_REF
+#          echo "base branch name " $GITHUB_BASE_REF
+#          if [[ $GITHUB_EVENT_NAME == 'pull_request' ]] && [[ $GITHUB_BASE_REF == 'main' ]] ; then
+#            echo "::set-output name=ENV::dev";
+#            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::DEV_VAULT_ROOT_TOKEN";
+#            echo "dev env"
+#          elif [[ $GITHUB_REF == 'refs/heads/main' ]]; then
+#            echo "::set-output name=ENV::staging";
+#            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::STAGING_VAULT_ROOT_TOKEN";
+#            echo "staging env"
+#          elif [[ $GITHUB_REF == 'refs/heads/release' ]]; then
+#            echo "::set-output name=ENV::prod";
+#            echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::PROD_VAULT_ROOT_TOKEN";
+#            echo "prod env"
+#          fi
       - id: set_env_from_parameter
         run: |
-          echo "::set-output name=ENV::${{ github.event.inputs.envToSet }} ";        
+          echo "::set-output name=ENV::${{ github.event.inputs.envToSet }} "
+          echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::DEV_VAULT_ROOT_TOKEN"
           
   build:
     name: build
