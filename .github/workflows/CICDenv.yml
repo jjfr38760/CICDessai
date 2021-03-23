@@ -13,6 +13,12 @@ on:
     branches: [ main ]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+      inputs:
+        envToSet:
+          description: 'env to set'
+          required: true
+          default: 'set a valid value of env name defined in github environments"'
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   determine_env:
@@ -41,6 +47,10 @@ jobs:
             echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::PROD_VAULT_ROOT_TOKEN";
             echo "prod env"
           fi
+      - id: set env from parameter
+        run: |
+          echo "::set-output name=ENV::${{ github.event.inputs.envToSet }} ";        
+          
   build:
     name: build
     needs: [determine_env]
@@ -49,7 +59,7 @@ jobs:
       test: staging
     runs-on: ubuntu-latest 
     environment: 
-      name: ${{ needs.determine_env.outputs.ENV }}
+      name: ${{ github.event.inputs.envToSet }}
     steps:      
       - uses: actions/checkout@v2
       - name: Run build Step
@@ -130,7 +140,7 @@ jobs:
      ENV: ${{ needs.determine_env.outputs.ENV }}
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ needs.determine_env.outputs.ENV }}
+      name: ${{ github.event.inputs.envToSet }}
     steps:
       - run: echo "environnent is " ${{ env.ENV }}
       - uses: actions/checkout@v2
