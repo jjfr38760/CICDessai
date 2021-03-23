@@ -17,6 +17,7 @@ on:
         envToSet:
           description: 'env to set'
           required: true
+          default: 'set a valid value from github environment'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -46,7 +47,7 @@ jobs:
             echo "::set-output name=VAULT_ROOT_TOKEN_SECRET::PROD_VAULT_ROOT_TOKEN";
             echo "prod env"
           fi
-      - id: set env from parameter
+      - id: set_env_from_parameter
         run: |
           echo "::set-output name=ENV::${{ github.event.inputs.envToSet }} ";        
           
