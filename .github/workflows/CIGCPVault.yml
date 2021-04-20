@@ -32,8 +32,13 @@ jobs:
         with:
           service_account_key: ${{ secrets.GOOGLE_CREDENTIALS_VAULT }}
           export_default_credentials: true
+      
+      # 
+      - name: Read vault GCP SA key
+        run: |
+          vault read gcp/key/my-key-roleset
 
-      # Runs a set of commands
+      # Access resources using vault GCP SA key
       - name: Read bucket
         run: |
           gsutil ls -r gs://agarik-mvp-staging-bucket/**
