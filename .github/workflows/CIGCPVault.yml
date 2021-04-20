@@ -26,13 +26,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      - name: set up gcloud
-        uses: google-github-actions/setup-gcloud@master
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID_VAULT }}
-          service_account_key: ${{ secrets.GOOGLE_CREDENTIALS_VAULT }}
-          export_default_credentials: true
         
       # Runs a set of commands
       - name: Read bucket
