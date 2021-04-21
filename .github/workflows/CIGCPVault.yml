@@ -31,14 +31,11 @@ jobs:
         uses: google-github-actions/setup-gcloud@master
         with:
           service_account_key: ${{ secrets.GOOGLE_CREDENTIALS_VAULT }}
-          export_default_credentials: true
-      
-      # 
-      - name: Read vault GCP SA key
-        run: |
-          vault read gcp/key/my-key-roleset
+          export_default_credentials: true      
 
       # Access resources using vault GCP SA key
       - name: Read bucket
         run: |
+          echo "hello world" >> myfile.txt
+          gsutil cp myfile.txt gs://agarik-mvp-staging-bucket/myfile.txt
           gsutil ls -r gs://agarik-mvp-staging-bucket/**
