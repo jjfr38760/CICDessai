@@ -44,8 +44,8 @@ jobs:
       # Access resources using vault GCP SA key
       - name: Call Python function
         run: |
-          export vault_addr="my address"
-          export vault_ca="my ca"
-          export github_pat="my github pat"
+          export vault_addr="myAddress"
+          export vault_ca="myCA"
+          export github_pat="myGithubPat"
           my_sa_key=`python sa_key_roleset.py $vault_addr $vault_ca $github_pat`
           echo "my_sa_key" $my_sa_key
