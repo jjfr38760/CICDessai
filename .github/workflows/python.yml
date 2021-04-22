@@ -48,4 +48,4 @@ jobs:
           export vault_ca="myCA"
           export github_pat="myGithubPat"
           my_sa_key=`python sa_key_roleset.py $vault_addr $vault_ca $github_pat`
-          echo "my_sa_key" $my_sa_key
+          echo "my_sa_key= ** $my_sa_key **"
