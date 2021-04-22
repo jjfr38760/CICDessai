@@ -11,8 +11,8 @@ def login_auth_github(vault_addr, vault_ca, github_pat):
 def get_sa_key(vault_addr, vault_ca, github_pat):	
      vault_token = login_auth_github(vault_addr, vault_ca, github_pat)
      sa_key = vault_token + "good job"
-     #print(sa_key)
+     print(sa_key)
      return sa_key
 
 if __name__ == '__main__':
-    exit (get_sa_key(*sys.argv[1:]))
+   get_sa_key(*sys.argv[1:])
