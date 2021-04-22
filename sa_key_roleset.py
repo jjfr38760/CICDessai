@@ -14,5 +14,5 @@ def get_sa_key(vault_addr, vault_ca, github_pat):
      print(sa_key)
      return sa_key
 
-if __name__ == '__main__':
-    get_sa_key(*sys.argv[1:])
+#if __name__ == '__main__':
+#    get_sa_key(*sys.argv[1:])
