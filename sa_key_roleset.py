@@ -36,7 +36,7 @@ if __name__ == '__main__':
     #   vault_ca = file.read()
     #print (vault_ca)
    #vault_token = login_auth_github(sys.argv[1], 'ca.crt', sys.argv[3])
-   vault_token = login_auth_github("https://34.83.233.171:8200", 'ca.crt', sys.argv[3])   
+   vault_token = login_auth_github(sys.argv[1], sys.argv[2], sys.argv[3])   
    print(vault_token)
 
 
