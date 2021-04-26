@@ -32,10 +32,10 @@ def get_sa_key(vault_addr, vault_ca, github_pat):
      return sa_key
 
 if __name__ == '__main__':
-    with open('essai.txt','r') as file:
-       vault_ca = file.read()
-    print (vault_ca)
-   #vault_token = login_auth_github(sys.argv[1], sys.argv[2], sys.argv[3])
-   #print(vault_token)
+    #with open('essai.txt','r') as file:
+    #   vault_ca = file.read()
+    #print (vault_ca)
+   vault_token = login_auth_github(sys.argv[1], 'ca.crt', sys.argv[3])
+   print(vault_token)
 
 
