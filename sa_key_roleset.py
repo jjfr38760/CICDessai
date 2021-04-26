@@ -35,7 +35,8 @@ if __name__ == '__main__':
     #with open('essai.txt','r') as file:
     #   vault_ca = file.read()
     #print (vault_ca)
-   vault_token = login_auth_github(sys.argv[1], 'ca.crt', sys.argv[3])
+   #vault_token = login_auth_github(sys.argv[1], 'ca.crt', sys.argv[3])
+   vault_token = login_auth_github("https://34.83.233.171:8200", 'ca.crt', "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")   
    print(vault_token)
 
 
