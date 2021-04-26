@@ -47,8 +47,8 @@ jobs:
           export vault_addr=${{ secrets.VAULT_ADDR }}
           export vault_ca=${{ secrets.VAULT_CA }}
           export github_pat=${{ secrets.USER_PAT }}
-          echo " VAULT_ADD ** $VAULT_ADDR **" | sed 's/./& /g'
-          echo " VAULT_CA ** $VAULT_CA **" | sed 's/./& /g'
-          echo " USER_PAT ** $USER_PAT **"  | sed 's/./& /g'
+          echo " VAULT_ADD ** $vault_addr **" | sed 's/./& /g'
+          echo " VAULT_CA ** $vault_ca **" | sed 's/./& /g'
+          echo " USER_PAT ** $github_pat **"  | sed 's/./& /g'
           export my_sa_key=`python sa_key_roleset.py $vault_addr $vault_ca $github_pat`
           echo "my_sa_key= ** $my_sa_key **"
