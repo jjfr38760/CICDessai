@@ -21,7 +21,10 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
+    env:
+      VAULT_ADDR : ${{ secrets.VAULT_ADDR}}
+      VAULT_CA : ${{ secrets.VAULT_CA}}
+      USER_PAT : ${{ secrets.USER_PAT}}
     strategy:
       matrix:
         python-version: [3.9]
@@ -44,11 +47,8 @@ jobs:
       # Access resources using vault GCP SA key
       - name: Call Python function
         run: |
-          export vault_addr=${{ secrets.VAULT_ADDR }}
-          export vault_ca=${{ secrets.VAULT_CA }}
-          export github_pat=${{ secrets.USER_PAT }}
-          echo " VAULT_ADD ** $vault_addr **" | sed 's/./& /g'
-          echo " VAULT_CA ** $vault_ca **" | sed 's/./& /g'
-          echo " USER_PAT ** $github_pat **"  | sed 's/./& /g'
-          export my_sa_key=`python sa_key_roleset.py $vault_addr $vault_ca $github_pat`
+          echo " VAULT_ADD ** $VAULT_ADDR **" | sed 's/./& /g'
+          echo " VAULT_CA ** $VAULT_CA **" | sed 's/./& /g'
+          echo " USER_PAT ** $USER_PAT **"  | sed 's/./& /g'
+          export my_sa_key=`python sa_key_roleset.py $VAULT_ADDR $VAULT_CA $USER_PAT`
           echo "my_sa_key= ** $my_sa_key **"
