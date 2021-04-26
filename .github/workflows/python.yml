@@ -50,5 +50,6 @@ jobs:
           #echo " VAULT_ADD ** $VAULT_ADDR **" | sed 's/./& /g'
           #echo " VAULT_CA ** $VAULT_CA **" | sed 's/./& /g'
           #echo " USER_PAT ** $USER_PAT **"  | sed 's/./& /g'
-          export my_sa_key=`python sa_key_roleset.py $VAULT_ADDR "./ca.crt" $USER_PAT`
+          cp ./ca.crt my_ca.crt
+          export my_sa_key=`python sa_key_roleset.py $VAULT_ADDR my_ca.crt $USER_PAT`
           echo "my_sa_key= ** $my_sa_key **"
