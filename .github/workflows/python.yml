@@ -44,7 +44,7 @@ jobs:
           update-pip: "true"
           path: "./requirements.txt"
           
-      # Access resources using vault GCP SA key
+    # Access resources using vault GCP SA key
       - name: Call Python function
         run: |
           #echo " VAULT_ADD ** $VAULT_ADDR **" | sed 's/./& /g'
