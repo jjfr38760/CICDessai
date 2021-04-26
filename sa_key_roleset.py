@@ -34,14 +34,9 @@ def get_sa_key(vault_addr, vault_ca, github_pat):
      print(sa_key)
      return sa_key
 
-
-if __name__ == '__main__':
-#   get_sa_key(*sys.argv[1:])
-   #vault_ca = open('./vault_ca.txt', 'r').read()
+def print_ca(vault_addr,github_pat):
    with open('vault_ca.txt','r') as file:
      vault_ca = file.read()
-   #get_sa_key(sys.argv[1], sys.argv[2], sys.argv[3])
-   print("vault_ca : ", vault_ca)
-   #get_sa_key(sys.argv[1], vault_ca, sys.argv[3])
+   print("vault_ca : ", vault_ca)     
 
 
