@@ -6,9 +6,6 @@ import json
 
 
 def login_auth_github(vault_addr, vault_ca, github_pat):
-     print("vault_addr ", vault_addr)
-     print("vault_ca ", vault_ca)
-     print("github_pat ", github_pat)
      addr = vault_addr + '/v1/auth/github/FRA-CES-IAC/login'
      response = requests.post(
            addr, verify=vault_ca,
@@ -37,6 +34,7 @@ def get_sa_key(vault_addr, vault_ca, github_pat):
 if __name__ == '__main__':
    with open('vault_ca.txt','r') as file:
      vault_ca = file.read()
-   print("vault_ca : ", vault_ca)
+   vault_token = login_auth_github(sys.argv[1], vault_ca, sys.argv[3])
+   print(vault_token)
 
 
