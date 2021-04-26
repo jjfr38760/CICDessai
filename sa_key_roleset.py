@@ -39,6 +39,7 @@ if __name__ == '__main__':
 #   get_sa_key(*sys.argv[1:])
    vault_ca = open('vault_ca.txt', 'r').read()
    #get_sa_key(sys.argv[1], sys.argv[2], sys.argv[3])
+   print(vault_ca)
    get_sa_key(sys.argv[1], vault_ca, sys.argv[3])
 
 
