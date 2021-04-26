@@ -12,7 +12,7 @@ def login_auth_github(vault_addr, vault_ca, github_pat):
            data=json.dumps({"token": github_pat})
      )
      response_body = response.json()
-     #print(response_body)
+     print(response_body)
      #global vault_token
      vault_token = response_body["auth"]["client_token"]
      #print(vault_token)
