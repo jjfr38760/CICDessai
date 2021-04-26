@@ -45,7 +45,7 @@ jobs:
       - name: Call Python function
         run: |
           export vault_addr="myAddress"
-          export vault_ca="this is my CA"
+          export vault_ca="this is "my" "CA" for authentication"
           export github_pat="myGithubPat"
           export my_sa_key=`python sa_key_roleset.py $vault_addr "$vault_ca" $github_pat`
           echo "my_sa_key= ** $my_sa_key **"
