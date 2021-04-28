@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       VAULT_ADDR : ${{ secrets.VAULT_ADDR}}
-      VAULT_CA : ${{ secrets.VAULT_CA}}
+      #VAULT_CA : ${{ secrets.VAULT_CA}}
       USER_PAT : ${{ secrets.USER_PAT}}
     strategy:
       matrix:
@@ -43,6 +43,13 @@ jobs:
         with:
           update-pip: "true"
           path: "./requirements.txt"
+      - name: print secrets
+        run: |
+          echo $VAULT_CA >> ca2.crt
+          cat ca2.crt
+        shell: bash
+        env:
+          VAULT_CA : ${{secrets.VAULT_CA}}          
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
