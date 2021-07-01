@@ -29,4 +29,5 @@ jobs:
           export VAULT_TOKEN=${{ env.VAULT_TOKEN }};
           echo "{ -policy="approle-api-roleid-get" -policy="approle-api-roleid-get" }" > payload-roleid.json
           echo "ROLE_ID_TOKEN=`curl --header \"X-Vault-Token: $VAULT_TOKEN\" --request POST --data @payload-roleid.json $VAULT_ADDR/v1/auth/token/create | jq '.auth.client_token'`" >> $GITHUB_ENV;
-          echo $ROLE_ID_TOKEN;
+          echo "ROLE_ID_TOKEN= " $ROLE_ID_TOKEN;
+          echo "*************";
