@@ -28,8 +28,7 @@ jobs:
         run: |
           export VAULT_TOKEN=${{ env.VAULT_TOKEN }};
           echo "{ "policies": [ "approle-api-roleid-get", "terraform-token-create" ] }" > payload-roleid.json;
-          ROLE_ID_TOKEN=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST --data @payload-roleid.json $VAULT_ADDR/v1/auth/token/create | jq '.auth.client_token'`;
-          echo $ROLE_ID_TOKEN >> $GITHUB_ENV;
+          echo 'ROLE_ID_TOKEN=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST --data @payload-roleid.json $VAULT_ADDR/v1/auth/token/create | jq '.auth.client_token'`' >> $GITHUB_ENV;
           
       - name: print token for getting approle role id
         run: |
