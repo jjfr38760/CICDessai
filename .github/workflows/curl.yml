@@ -7,10 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches:
-     - main
-     - release
-  pull_request:
-    branches: [ main ]
+     - feature6
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
   
@@ -23,8 +20,11 @@ jobs:
     env:
       VAULT_ADDR: https://vault-bde-1.vault-service-ccfs.fr:8200
       VAULT_TOKEN: s.BmWE4Io3hWmqTHPuJLHI7TOW 
-
-- name: get token for getting approle role id
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2   
+      
+      - name: get token for getting approle role id
         run: |
           export VAULT_TOKEN=${{ env.VAULT_TOKEN }};
           cat << EOF > payload-roleid.json
