@@ -27,11 +27,6 @@ jobs:
       - name: get token for getting approle role id
         run: |
           export VAULT_TOKEN=${{ env.VAULT_TOKEN }};
-          cat << 'EOF' > payload-roleid.json
-          {
-          -policy="approle-api-roleid-get"
-          -policy="approle-api-roleid-get"
-          }
-          EOF;
+          echo "{ -policy="approle-api-roleid-get" -policy="approle-api-roleid-get" }" > payload-roleid.json
           echo "ROLE_ID_TOKEN=`curl --header \"X-Vault-Token: $VAULT_TOKEN\" --request POST --data @payload-roleid.json $VAULT_ADDR/v1/auth/token/create | jq '.auth.client_token'`" >> $GITHUB_ENV;
           echo $ROLE_ID_TOKEN;
