@@ -18,8 +18,8 @@ jobs:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
-      VAULT_ADDR: 'https://vault-bde-1.vault-service-ccfs.fr:8200'
-      VAULT_TOKEN: 's.BmWE4Io3hWmqTHPuJLHI7TOW'
+      VAULT_ADDR: https://vault-bde-1.vault-service-ccfs.fr:8200
+      VAULT_TOKEN: s.BmWE4Io3hWmqTHPuJLHI7TOW
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2   
@@ -27,7 +27,7 @@ jobs:
       - name: get token for getting approle role id
         run: |
           export VAULT_TOKEN=${{ env.VAULT_TOKEN }};
-          echo "{ "policies": [ "approle-api-roleid-get", "terraform-token-create" ] }" > payload-roleid.json
+          echo "{ "policies": [ "approle-api-roleid-get", "terraform-token-create" ] }" > payload-roleid.json;
           ROLE_ID_TOKEN=`curl --header "X-Vault-Token: $VAULT_TOKEN" --request POST --data @payload-roleid.json $VAULT_ADDR/v1/auth/token/create | jq '.auth.client_token'`;
           echo $ROLE_ID_TOKEN >> $GITHUB_ENV;
           
